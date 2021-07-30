@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         _playerMovement.enabled = enable;
         _playerInputController.enabled = enable;
-        _audioController.enabled = enable;
+        _audioController.enabled = enable;        
     }
 
     public void TakeDamage()

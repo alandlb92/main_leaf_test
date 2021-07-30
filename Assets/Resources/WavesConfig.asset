@@ -13,27 +13,39 @@ MonoBehaviour:
   m_Name: WavesConfig
   m_EditorClassIdentifier: 
   _waveConfigs:
-  - _archer: 2
-    _melee: 0
-  - _archer: 4
-    _melee: 0
-  - _archer: 3
-    _melee: 1
-  - _archer: 5
-    _melee: 0
-  - _archer: 5
-    _melee: 1
-  - _archer: 4
-    _melee: 2
-  - _archer: 3
-    _melee: 3
-  - _archer: 6
-    _melee: 2
-  - _archer: 7
-    _melee: 2
-  - _archer: 8
-    _melee: 3
-  - _archer: 9
-    _melee: 4
-  - _archer: 10
-    _melee: 5
+  - Name: Wave 1
+    Archer: 2
+    Melee: 0
+  - Name: Wave 2
+    Archer: 4
+    Melee: 0
+  - Name: Wave 3
+    Archer: 3
+    Melee: 1
+  - Name: Pray for your life
+    Archer: 5
+    Melee: 2
+  - Name: Wave 5
+    Archer: 3
+    Melee: 3
+  - Name: Wave 6
+    Archer: 6
+    Melee: 3
+  - Name: Wave 7
+    Archer: 7
+    Melee: 2
+  - Name: HAHAHAHA
+    Archer: 8
+    Melee: 1
+  - Name: Wave 9
+    Archer: 8
+    Melee: 3
+  - Name: Wave 10
+    Archer: 0
+    Melee: 0
+  - Name: Wave 11
+    Archer: 9
+    Melee: 4
+  - Name: You will never win
+    Archer: 10
+    Melee: 5

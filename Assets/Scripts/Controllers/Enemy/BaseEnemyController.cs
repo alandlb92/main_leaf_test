@@ -88,9 +88,9 @@ public class BaseEnemyController : MonoBehaviour, IDamage
 
     private void Die()
     {
-        OnDie?.Invoke();
         _animator.enabled = false;
         EnableRagDoll(true);
+        OnDie?.Invoke();
     }
 
     private void OnFootL()

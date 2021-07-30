@@ -13,6 +13,28 @@ public class AmbientAudioController : AudioController
         _audioSource.loop = true;
         _audioSource.Play();
     }
+    public void ShowTittle()
+    {
+        if (_audioLib.ShowTittleSound == null || _audioLib.ShowTittleSound.Length == 0)
+            return;
 
+        _audioSource.PlayOneShot(_audioLib.ShowTittleSound[Random.Range(0, _audioLib.ShowTittleSound.Length)]);
+    }
+
+    public void CountDown()
+    {
+        if (_audioLib.CountDownSound == null || _audioLib.CountDownSound.Length == 0)
+            return;
+
+        _audioSource.PlayOneShot(_audioLib.CountDownSound[Random.Range(0, _audioLib.CountDownSound.Length)]);
+    }
+
+    public void StartWave()
+    {
+        if (_audioLib.StartWaveSound == null || _audioLib.StartWaveSound.Length == 0)
+            return;
+
+        _audioSource.PlayOneShot(_audioLib.StartWaveSound[Random.Range(0, _audioLib.StartWaveSound.Length)]);
+    }
 
 }

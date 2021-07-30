@@ -24,3 +24,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 238d5b582ebe06e4589d4d3b2dabd696, type: 3}
   _bowPrepare:
   - {fileID: 8300000, guid: 3016db0afdbb4cf4dbb714e04497e8e2, type: 3}
+  _bgSound:
+  - {fileID: 8300000, guid: 6e7ef1a4be0c3f54c8e66b5a00da1bef, type: 3}
+  _showTittleSound:
+  - {fileID: 8300000, guid: ed8748c9a00497547b6de6597fbc8bb3, type: 3}
+  _countDownSound:
+  - {fileID: 8300000, guid: 290ed4e9d0730424bb0577c38490121a, type: 3}
+  _startWaveSound:
+  - {fileID: 8300000, guid: 47af9947352631d47a3f55a7b2d202e7, type: 3}

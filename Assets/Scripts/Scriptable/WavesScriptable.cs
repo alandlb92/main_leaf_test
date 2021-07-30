@@ -14,6 +14,7 @@ public class WavesScriptable : ScriptableObject
 [Serializable]
 public class WaveConfig
 {
-    public int _archer;
-    public int _melee;
+    public string Name;
+    public int Archer;
+    public int Melee;
 }

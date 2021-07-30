@@ -11,6 +11,9 @@ public class AudioLib : ScriptableObject
     [SerializeField] private AudioClip[] _bowRelease;
     [SerializeField] private AudioClip[] _bowPrepare;
     [SerializeField] private AudioClip[] _bgSound;
+    [SerializeField] private AudioClip[] _showTittleSound;
+    [SerializeField] private AudioClip[] _countDownSound;
+    [SerializeField] private AudioClip[] _startWaveSound;
 
     public AudioClip[] PlayerHurt => _playerHurt;
     public AudioClip[] ArcherHurt => _archerHurt;
@@ -18,4 +21,7 @@ public class AudioLib : ScriptableObject
     public AudioClip[] BowRelease => _bowRelease;
     public AudioClip[] BowPrepare => _bowPrepare;
     public AudioClip[] BgSound => _bgSound;
+    public AudioClip[] ShowTittleSound => _showTittleSound;
+    public AudioClip[] CountDownSound => _countDownSound;
+    public AudioClip[] StartWaveSound => _startWaveSound;
 }

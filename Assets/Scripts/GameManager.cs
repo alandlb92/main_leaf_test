@@ -8,9 +8,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ArcherEnemyController _archerReference;
     [SerializeField] private MeleeEnemyController _meleeReference;
 
+    private AmbientAudioController _ambientAudioController;
     private PlayerController _playerController;
     private WavesScriptable _waveConfig;
-    private int _activeEnemies = 0;
+    private HudUI _hudUI;
+    private WarningScreenUI _warningScreenUI;
 
     private List<Transform> _spawnPoints = new List<Transform>();
     private List<Transform> _usedSpanwsPoints = new List<Transform>();
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour
     private List<ArcherEnemyController> _archers = new List<ArcherEnemyController>();
     private List<MeleeEnemyController> _melees = new List<MeleeEnemyController>();
 
+    private int _currentWave = 0;
     private int _currentMeleeInstance = 0;
     private int _currentArcherInstance = 0;
 
@@ -29,6 +32,8 @@ public class GameManager : MonoBehaviour
     {
         Cursor.visible = false;
         _playerController.Enable(true);
+        _hudUI.Open();
+        NewWave();
     }
     private void Awake()
     {
@@ -36,19 +41,34 @@ public class GameManager : MonoBehaviour
         _spawnPoints.ForEach(s => s.GetComponent<MeshRenderer>().enabled = false);
         _waveConfig = Resources.Load<WavesScriptable>("WavesConfig");
         _playerController = FindObjectOfType<PlayerController>();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            StartCoroutine(SpawnEnemies(3, 0));
-        }
+        _hudUI = FindObjectOfType<HudUI>();
+        _warningScreenUI = FindObjectOfType<WarningScreenUI>();
+        _ambientAudioController = FindObjectOfType<AmbientAudioController>();
     }
 
     private void OnEnemyDie()
     {
-        _activeEnemies--;
+        int aliveEnemies = _melees.FindAll(c => !c.IsDead).Count() + _archers.FindAll(c => !c.IsDead).Count();
+        Debug.Log(aliveEnemies);
+        if (aliveEnemies == 0)
+        {
+            NewWave();
+        }
+    }
+
+    private void NewWave()
+    {
+        CorotineUtils.WaiSecondsAndExecute(this ,3, () =>
+        {
+            _warningScreenUI.ShowWarnning(_waveConfig.WaveConfigs[_currentWave].Name,
+                () =>
+                {
+                    StartCoroutine(StartWave(_waveConfig.WaveConfigs[_currentWave]));
+                    _currentWave++;
+                    if (_currentWave > _waveConfig.WaveConfigs.Length - 1)
+                        _currentWave = _waveConfig.WaveConfigs.Length - 1;
+                });
+        });
     }
 
     private void SpawMelee(Transform spawnPoint)
@@ -110,22 +130,21 @@ public class GameManager : MonoBehaviour
         return spawnPoint;
     }
 
-    private IEnumerator SpawnEnemies(int archers, int melees)
+    private IEnumerator StartWave(WaveConfig waveConfig)
     {
-        for (int i = 0; i < archers; i++)
+        Debug.Log(waveConfig.Archer);
+        Debug.Log(waveConfig.Melee);
+        _ambientAudioController.StartWave();
+        for (int i = 0; i < waveConfig.Archer; i++)
         {
             SpawArcher(GetSpawnPoint());
             yield return new WaitForSeconds(1);
         }
 
-        for (int i = 0; i < melees; i++)
+        for (int i = 0; i < waveConfig.Melee; i++)
         {
             SpawMelee(GetSpawnPoint());
             yield return new WaitForSeconds(1);
         }
     }
-
-
-
-
 }

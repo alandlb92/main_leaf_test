@@ -46,11 +46,6 @@ public class BowController : BaseWeaponController
                     _arrowForce = amount;
 
                 _arrowForce = Mathf.Clamp(_arrowForce, MIN_ARROW_FORCE, 1);
-
-                Debug.Log(_animator.GetCurrentAnimatorClipInfo(1)[0].clip.name);
-                Debug.Log(clipTime);
-                Debug.Log(amount);
-                Debug.Log(_arrowForce);
             }
 
             _animator.SetBool("Mouse0", _playerController.PlayerInputController.Mouse0Clicked);
