@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b098545ba9d590341a13a8d53c4b06af, type: 3}
+  m_Name: AudioLib
+  m_EditorClassIdentifier: 
+  _playerHurt:
+  - {fileID: 8300000, guid: fff85b1a24780ba4992fa68ec5c24bfa, type: 3}
+  - {fileID: 8300000, guid: 12e0d0bde4e1d1c4c9d17ede9d938140, type: 3}
+  - {fileID: 8300000, guid: b82bea30cdf7ab04e8f8333a4e1377a2, type: 3}
+  _archerHurt: []
+  _meleeHurt:
+  - {fileID: 8300000, guid: c5f102c304cc37f4d96581bb90adcb28, type: 3}
+  - {fileID: 8300000, guid: 409720d2f0866db49a8a0ab57d8776ba, type: 3}
+  _bowRelease:
+  - {fileID: 8300000, guid: 238d5b582ebe06e4589d4d3b2dabd696, type: 3}
+  _bowPrepare:
+  - {fileID: 8300000, guid: 3016db0afdbb4cf4dbb714e04497e8e2, type: 3}
