@@ -41,8 +41,8 @@ MonoBehaviour:
     Archer: 8
     Melee: 3
   - Name: Wave 10
-    Archer: 0
-    Melee: 0
+    Archer: 10
+    Melee: 2
   - Name: Wave 11
     Archer: 9
     Melee: 4

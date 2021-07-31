@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,10 +17,19 @@ public class ArcherEnemyController : BaseEnemyController
     private bool _needToReload;
     private Coroutine _fireRotine;
     private Coroutine _blendCoroutine;
+    private Coroutine _verifyReloadCorotine;
     private Vector3 _arrowOriginStartLocalPosition;
     private List<ArrowController> _arrows = new List<ArrowController>();
     private int _currentArrowIndex = 0;
-    private const int MAX_ARROW_INSTANCES = 10;
+
+    private ArcherAudioController AudioController => (ArcherAudioController)_audioController;
+    private const int MAX_ARROW_INSTANCES = 5;
+
+    public override void Initialize(Action OnDie, int count)
+    {
+        base.Initialize(OnDie, count);
+        OnReload();
+    }
 
     protected override void Awake()
     {
@@ -29,6 +39,12 @@ public class ArcherEnemyController : BaseEnemyController
         _animationEvents.OnReload = OnReload;
     }
 
+    protected override void Die()
+    {
+        base.Die();
+        AudioController.Die();
+    }
+
     protected override void Update()
     {
         if (IsDead)
@@ -36,6 +52,12 @@ public class ArcherEnemyController : BaseEnemyController
 
         if (!_needToReload)
         {
+            if (_verifyReloadCorotine != null)
+            {
+                StopCoroutine(_verifyReloadCorotine);
+                _verifyReloadCorotine = null;
+            }
+
             base.Update();
             if (_attackMode && !_needToReload)
             {
@@ -46,10 +68,19 @@ public class ArcherEnemyController : BaseEnemyController
             else if (_blendCoroutine == null && _animator.GetLayerWeight(1) == 1)
                 StartBlend(true);
         }
+        else
+        {
+            _animator.SetFloat("Velocity", _navMeshAgent.velocity.magnitude / _navMeshAgent.speed);
+            VerifyReload();
+        }
+
     }
 
     private void LateUpdate()
     {
+        if (IsDead)
+            return;
+
         if (_attackMode)
         {
             if (_blendCoroutine == null)
@@ -60,6 +91,19 @@ public class ArcherEnemyController : BaseEnemyController
                     _fireRotine = StartCoroutine(Fire());
             }
         }
+    }
+
+    private void VerifyReload()
+    {
+        if (_verifyReloadCorotine == null)
+            _verifyReloadCorotine = StartCoroutine(RunVerifyReload());
+    }
+
+    private IEnumerator RunVerifyReload()
+    {
+        yield return new WaitForSeconds(2.5f);
+        yield return SetAtackMode(true, true);
+        _verifyReloadCorotine = null;
     }
 
     private Vector3 GetCalculatedAdjustmentDistance(bool isSpine)
@@ -76,7 +120,7 @@ public class ArcherEnemyController : BaseEnemyController
 
     private IEnumerator Fire()
     {
-        float waitToAttack = Random.Range(_fireShotDesitionRangeTime.x, _fireShotDesitionRangeTime.y);
+        float waitToAttack = UnityEngine.Random.Range(_fireShotDesitionRangeTime.x, _fireShotDesitionRangeTime.y);
         yield return new WaitForSeconds(waitToAttack);
         _needToReload = true;
         _animator.SetTrigger("Attack");
@@ -85,6 +129,7 @@ public class ArcherEnemyController : BaseEnemyController
 
     private void StartBlend(bool backToNormal, bool reload = false)
     {
+        _audioController.BowPrepare();
         if (_blendCoroutine != null)
             StopCoroutine(_blendCoroutine);
 
@@ -123,6 +168,7 @@ public class ArcherEnemyController : BaseEnemyController
     protected override void OnFire()
     {
         base.OnFire();
+        _audioController.BowRelease();
         _arrowOrigin.transform.LookAt(_playerController.transform);
         _arrowOrigin.transform.rotation = Quaternion.Euler(GetCalculatedAdjustmentDistance(false) + _arrowOrigin.transform.rotation.eulerAngles);
 

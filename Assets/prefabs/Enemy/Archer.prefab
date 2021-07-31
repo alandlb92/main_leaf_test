@@ -130,6 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startLife: 1
   _distanceToApproachTheEnemy: 20
+  _priority: 50
   _spine1: {fileID: 2690611821001129425}
   _rotationSpine1Offset: {x: 29.8, y: 70.1, z: -126.2}
   _timeToBlendLayers: 0.5
@@ -1477,10 +1478,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.06112141
-  m_Height: 0.24448565
+  m_Radius: 0.06870294
+  m_Height: 0.13740586
   m_Direction: 0
-  m_Center: {x: 0.12224282, y: 0, z: 0}
+  m_Center: {x: 0.061633844, y: 0.007581432, z: -7.96194e-10}
 --- !u!144 &2690611820888834531
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -2071,9 +2072,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.054592714
-  m_Height: 0.1819757
+  m_Height: 0.109185435
   m_Direction: 0
-  m_Center: {x: 0.09098785, y: 0, z: 0}
+  m_Center: {x: 0.05459305, y: -0.000000085288846, z: 0.0000000019453559}
 --- !u!144 &2690611821347441207
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -2243,9 +2244,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.054592703
-  m_Height: 0.18197566
+  m_Height: 0.12848786
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0.09098783}
+  m_Center: {x: -0.00000009511712, y: 0.0000000017222954, z: 0.06424392}
 --- !u!144 &2690611821902102067
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -2476,9 +2477,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.0708293
-  m_Height: 0.2833172
+  m_Height: 0.14165862
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0.1416586}
+  m_Center: {x: 0.0000016090713, y: -0.0000006653818, z: 0.019061262}
 --- !u!144 &2690611820899635749
 CharacterJoint:
   m_ObjectHideFlags: 0

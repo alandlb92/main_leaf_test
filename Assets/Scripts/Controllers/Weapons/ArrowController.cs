@@ -11,7 +11,29 @@ public class ArrowController : MonoBehaviour
     private BoxCollider _collider;
     [SerializeField] private float _force = 15;
 
-    void Awake()
+    public void Shot(Transform startOrigin, float forceMultiply)
+    {
+        this.transform.parent = null;
+        _meshRenderer.enabled = true;
+        _rigidbody.isKinematic = false;
+        _rigidbody.constraints = RigidbodyConstraints.None;
+        this.transform.position = startOrigin.position;
+        this.transform.rotation = startOrigin.rotation;
+        _collider.enabled = true;
+        _rigidbody.velocity = this.transform.forward.normalized * _force * forceMultiply;
+
+        CorotineUtils.WaitFixedUpdateAndExecute(this, () =>
+        {
+            _hitSomething = false;
+        });
+    }
+
+    public void SetVisible(bool visible)
+    {
+        _meshRenderer.enabled = visible;
+    }
+
+    private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _meshRenderer = GetComponentInChildren<MeshRenderer>();
@@ -21,11 +43,7 @@ public class ArrowController : MonoBehaviour
         _collider.enabled = false;
     }
 
-    private void Start()
-    {
-    }
-
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (!_hitSomething)
         {
@@ -33,32 +51,16 @@ public class ArrowController : MonoBehaviour
         }
     }
 
-    public void Shot(Transform startOrigin, float forceMultiply)
-    {
-        this.transform.parent = null;
-        _meshRenderer.enabled = true;
-        _rigidbody.constraints = RigidbodyConstraints.None;
-        this.transform.position = startOrigin.position;
-        this.transform.rotation = startOrigin.rotation;
-        _rigidbody.velocity = this.transform.forward.normalized * _force * forceMultiply;
-        _collider.enabled = true;        
-        _hitSomething = false;
-    }
-
-    public void SetVisible(bool visible)
-    {
-        _meshRenderer.enabled = visible;
-    }
-
     private void OnTriggerEnter(Collider collision)
     {
-        if (_hitSomething || collision.GetComponent<ArrowController>() != null)
+        if (_hitSomething || collision.GetComponent<ArrowController>() != null || collision.GetComponent<MeleeEnemyWeaponController>() != null)
             return;
 
         IDamage damage = collision.gameObject.GetComponentInParent<IDamage>();
-        if(damage != null)
+        if (damage != null)
             damage.TakeDamage();
 
+        _collider.enabled = false;
         _hitSomething = true;
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
         this.transform.parent = collision.transform;

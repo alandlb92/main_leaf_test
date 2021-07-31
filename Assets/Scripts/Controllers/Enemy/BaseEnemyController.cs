@@ -12,27 +12,33 @@ public class BaseEnemyController : MonoBehaviour, IDamage
     private int _currentLife;
 
     [SerializeField] protected float _distanceToApproachTheEnemy = 20;
+    [SerializeField] private int _priority = 50;
     protected NavMeshAgent _navMeshAgent;
     protected Rigidbody[] _ragDollRigdybodys;
     protected Collider[] _ragDollColliders;
     protected Animator _animator;
     protected PlayerController _playerController;
     protected BaseEnemyAnimationEvents _animationEvents;
+    protected BaseAudioController _audioController;
     protected bool _attackMode;
     protected bool _waitDistanceToApproachTheEnemy = false;
 
     private Action OnDie;
 
-    public void Initialize(Action OnDie)
+    public virtual void Initialize(Action OnDie, int count)
     {
         this.OnDie = OnDie;
         _animator.enabled = true;
         _currentLife = _startLife;
+        _navMeshAgent.avoidancePriority = _priority + count;
         Awake();
     }
 
     public virtual void TakeDamage()
     {
+        if (IsDead)
+            return;
+
         _currentLife--;
         if (_currentLife <= 0)
             Die();
@@ -46,6 +52,7 @@ public class BaseEnemyController : MonoBehaviour, IDamage
         _ragDollRigdybodys = GetComponentsInChildren<Rigidbody>();
         _ragDollColliders = GetComponentsInChildren<Collider>();
         _animationEvents = GetComponentInChildren<BaseEnemyAnimationEvents>();
+        _audioController = GetComponent<BaseAudioController>();
         _animationEvents.OnFootL = OnFootL;
         _animationEvents.OnFootR = OnFootR;
         _animationEvents.OnFire = OnFire;
@@ -86,8 +93,9 @@ public class BaseEnemyController : MonoBehaviour, IDamage
         _ragDollRigdybodys.ToList().ForEach(r => r.isKinematic = !enable);
     }
 
-    private void Die()
+    protected virtual void Die()
     {
+        _navMeshAgent.avoidancePriority = 0;
         _animator.enabled = false;
         EnableRagDoll(true);
         OnDie?.Invoke();
@@ -95,12 +103,12 @@ public class BaseEnemyController : MonoBehaviour, IDamage
 
     private void OnFootL()
     {
-
+        _audioController.Step();
     }
 
     private void OnFootR()
     {
-
+        _audioController.Step();
     }
 
     protected virtual void OnFire()

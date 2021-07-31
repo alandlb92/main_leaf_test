@@ -9,13 +9,20 @@ public class MeleeEnemyController : BaseEnemyController
     private MeleeEnemyWeaponController _meleeEnemyWeaponController;
     private bool _canHit;
     private Coroutine _atackRotine;
+    private MeleeAudioController AudioController => (MeleeAudioController)_audioController;
 
     public override void TakeDamage()
     {
         _animator.ResetTrigger("Atack1");
         _animator.ResetTrigger("Atack2");
         _animator.SetTrigger("TakeDamage");
+        AudioController.Hurt();
         base.TakeDamage();
+    }
+    protected override void Die()
+    {
+        base.Die();
+        AudioController.Die();
     }
 
     protected override void Awake()

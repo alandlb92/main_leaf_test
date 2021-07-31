@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcherAudioController : MonoBehaviour
+public class ArcherAudioController : BaseAudioController
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Die()
     {
-        
-    }
+        if (_audioLib.ArcherDie == null || _audioLib.ArcherDie.Length == 0)
+            return;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _audioSource.PlayOneShot(_audioLib.ArcherDie[Random.Range(0, _audioLib.ArcherDie.Length)]);
     }
 }

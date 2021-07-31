@@ -23,10 +23,11 @@ public class GameManager : MonoBehaviour
     private int _currentWave = 0;
     private int _currentMeleeInstance = 0;
     private int _currentArcherInstance = 0;
+    private bool _buildingWave;
 
     private const int MAX_MELEES_INSTACES = 5;
-    private const int MAX_ARCHER_INSTACES = 10;
-    private const int NON_REPETED_SPAWNS = 3;
+    private const int MAX_ARCHER_INSTACES = 4;
+    private const int NON_REPETED_SPAWNS = 5;
 
     public void StartGame()
     {
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         _spawnPoints = GameObject.FindGameObjectsWithTag("Respawn").Select(go => go.transform).ToList();
         _spawnPoints.ForEach(s => s.GetComponent<MeshRenderer>().enabled = false);
         _waveConfig = Resources.Load<WavesScriptable>("WavesConfig");
@@ -48,8 +50,10 @@ public class GameManager : MonoBehaviour
 
     private void OnEnemyDie()
     {
+        if (_buildingWave)
+            return;
+
         int aliveEnemies = _melees.FindAll(c => !c.IsDead).Count() + _archers.FindAll(c => !c.IsDead).Count();
-        Debug.Log(aliveEnemies);
         if (aliveEnemies == 0)
         {
             NewWave();
@@ -58,7 +62,7 @@ public class GameManager : MonoBehaviour
 
     private void NewWave()
     {
-        CorotineUtils.WaiSecondsAndExecute(this ,3, () =>
+        CorotineUtils.WaiSecondsAndExecute(this, 3, () =>
         {
             _warningScreenUI.ShowWarnning(_waveConfig.WaveConfigs[_currentWave].Name,
                 () =>
@@ -71,21 +75,21 @@ public class GameManager : MonoBehaviour
         });
     }
 
-    private void SpawMelee(Transform spawnPoint)
+    private void SpawMelee(Transform spawnPoint, int count)
     {
         if (_melees.Count < MAX_MELEES_INSTACES)
         {
             MeleeEnemyController instance = Instantiate(_meleeReference);
             instance.transform.position = spawnPoint.transform.position;
             instance.transform.rotation = spawnPoint.transform.rotation;
-            instance.Initialize(OnEnemyDie);
+            instance.Initialize(OnEnemyDie, count);
             _melees.Add(instance);
         }
         else
         {
             _melees[_currentMeleeInstance].transform.position = spawnPoint.transform.position;
             _melees[_currentMeleeInstance].transform.rotation = spawnPoint.transform.rotation;
-            _melees[_currentMeleeInstance].Initialize(OnEnemyDie);
+            _melees[_currentMeleeInstance].Initialize(OnEnemyDie, count);
 
             _currentMeleeInstance++;
             if (_currentMeleeInstance > _melees.Count - 1)
@@ -94,21 +98,21 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void SpawArcher(Transform spawnPoint)
+    private void SpawArcher(Transform spawnPoint, int count)
     {
         if (_archers.Count < MAX_ARCHER_INSTACES)
         {
             ArcherEnemyController instance = Instantiate(_archerReference);
             instance.transform.position = spawnPoint.transform.position;
             instance.transform.rotation = spawnPoint.transform.rotation;
-            instance.Initialize(OnEnemyDie);
+            instance.Initialize(OnEnemyDie, count);
             _archers.Add(instance);
         }
         else
         {
             _archers[_currentArcherInstance].transform.position = spawnPoint.transform.position;
             _archers[_currentArcherInstance].transform.rotation = spawnPoint.transform.rotation;
-            _archers[_currentArcherInstance].Initialize(OnEnemyDie);
+            _archers[_currentArcherInstance].Initialize(OnEnemyDie, count);
 
             _currentArcherInstance++;
             if (_currentArcherInstance > _archers.Count - 1)
@@ -132,19 +136,19 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator StartWave(WaveConfig waveConfig)
     {
-        Debug.Log(waveConfig.Archer);
-        Debug.Log(waveConfig.Melee);
+        _buildingWave = true;
         _ambientAudioController.StartWave();
         for (int i = 0; i < waveConfig.Archer; i++)
         {
-            SpawArcher(GetSpawnPoint());
+            SpawArcher(GetSpawnPoint(), i);
             yield return new WaitForSeconds(1);
         }
 
         for (int i = 0; i < waveConfig.Melee; i++)
         {
-            SpawMelee(GetSpawnPoint());
+            SpawMelee(GetSpawnPoint(), i);
             yield return new WaitForSeconds(1);
         }
+        _buildingWave = false;
     }
 }
