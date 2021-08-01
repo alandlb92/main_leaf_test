@@ -25,15 +25,29 @@ public class ArcherEnemyController : BaseEnemyController
     private ArcherAudioController AudioController => (ArcherAudioController)_audioController;
     private const int MAX_ARROW_INSTANCES = 5;
 
-    public override void Initialize(Action OnDie, int count)
+    public override void HideBody()
+    {
+        base.HideBody();
+        _arrows.ForEach(a =>
+        {
+            a.transform.parent = null;
+            a.transform.position = Vector3.zero;
+        });
+    }
+
+
+    public override void Initialize(Action<BaseEnemyController.Type> OnDie, int count)
     {
         base.Initialize(OnDie, count);
         OnReload();
+        AudioController.Spawn();
+
     }
 
     protected override void Awake()
     {
         base.Awake();
+        _type = Type.ARCHER;
         _arrowOriginStartLocalPosition = _arrowOrigin.transform.localPosition;
         _animationEvents.OnEndFire = OnEndFire;
         _animationEvents.OnReload = OnReload;

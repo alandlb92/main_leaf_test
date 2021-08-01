@@ -1,18 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GamePauseUI : MonoBehaviour
+public class GamePauseUI : BaseUI
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Button _resumeGameButton;
+    [SerializeField] private Button _exitGameButton;
+    private GameManager _gameManager;
+
+    protected override void Awake()
     {
-        
+        base.Awake();
+        _gameManager = FindObjectOfType<GameManager>();
+        _resumeGameButton.onClick.AddListener(ResumeGame);
+        _exitGameButton.onClick.AddListener(ExitGame);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ResumeGame()
     {
-        
+        _gameManager.PauseGame();
+    }
+
+    private void ExitGame()
+    {
+        Application.Quit();
     }
 }

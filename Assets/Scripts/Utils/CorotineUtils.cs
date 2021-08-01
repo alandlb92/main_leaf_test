@@ -9,9 +9,15 @@ public static class CorotineUtils
     {
         monoBehaviour.StartCoroutine(RunWaitFixedUpdateAndExecute(execute));
     }
-    public static void WaiSecondsAndExecute(MonoBehaviour monoBehaviour, float time,Action execute)
+
+    public static Coroutine WaiSecondsAndExecute(MonoBehaviour monoBehaviour, float time,Action execute)
     {
-        monoBehaviour.StartCoroutine(RunWaiSecondsAndExecute(time, execute));
+        return monoBehaviour.StartCoroutine(RunWaiSecondsAndExecute(time, execute));
+    }
+
+    public static void WaitEndOfFrameAndExecute(MonoBehaviour monoBehaviour, Action execute)
+    {
+        monoBehaviour.StartCoroutine(RunWaitEndOfFrameAndExecute(execute));
     }
 
     private static IEnumerator RunWaiSecondsAndExecute(float time, Action execute)
@@ -23,6 +29,12 @@ public static class CorotineUtils
     private static IEnumerator RunWaitFixedUpdateAndExecute(Action execute)
     {
         yield return new WaitForFixedUpdate();
+        execute?.Invoke();
+    }
+
+    private static IEnumerator RunWaitEndOfFrameAndExecute(Action execute)
+    {
+        yield return new WaitForEndOfFrame();
         execute?.Invoke();
     }
 }

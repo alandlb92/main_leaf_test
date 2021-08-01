@@ -9,10 +9,19 @@ public class ArrowController : MonoBehaviour
     private Rigidbody _rigidbody;
     private MeshRenderer _meshRenderer;
     private BoxCollider _collider;
+    private ArrowAudioController _audioController;
     [SerializeField] private float _force = 15;
 
     public void Shot(Transform startOrigin, float forceMultiply)
     {
+        if (forceMultiply > 0.5f)
+        {
+            if(_audioController == null)
+                _audioController = GetComponent<ArrowAudioController>();
+
+            _audioController.ArrowShot();
+        }
+
         this.transform.parent = null;
         _meshRenderer.enabled = true;
         _rigidbody.isKinematic = false;
@@ -41,6 +50,7 @@ public class ArrowController : MonoBehaviour
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
         _meshRenderer.enabled = false;
         _collider.enabled = false;
+        _audioController = GetComponent<ArrowAudioController>();
     }
 
     private void FixedUpdate()
@@ -58,8 +68,9 @@ public class ArrowController : MonoBehaviour
 
         IDamage damage = collision.gameObject.GetComponentInParent<IDamage>();
         if (damage != null)
-            damage.TakeDamage();
+            damage.TakeDamage(1);
 
+        _audioController.ArrowInpact();
         _collider.enabled = false;
         _hitSomething = true;
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;

@@ -5,9 +5,9 @@ using UnityEngine;
 public class AmbientAudioController : BaseAudioController
 {
     // Start is called before the first frame update
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         _audioSource = Camera.main.GetComponent<AudioSource>();
         _audioSource.clip = _audioLib.BgSound[0];
         _audioSource.loop = true;

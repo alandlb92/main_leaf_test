@@ -11,13 +11,19 @@ public class MeleeEnemyController : BaseEnemyController
     private Coroutine _atackRotine;
     private MeleeAudioController AudioController => (MeleeAudioController)_audioController;
 
-    public override void TakeDamage()
+    public override void Initialize(System.Action<BaseEnemyController.Type> OnDie, int count)
+    {
+        base.Initialize(OnDie, count);
+        AudioController.Spawn();
+    }
+
+    public override void TakeDamage(int howMuch)
     {
         _animator.ResetTrigger("Atack1");
         _animator.ResetTrigger("Atack2");
         _animator.SetTrigger("TakeDamage");
         AudioController.Hurt();
-        base.TakeDamage();
+        base.TakeDamage(howMuch);
     }
     protected override void Die()
     {
@@ -32,6 +38,7 @@ public class MeleeEnemyController : BaseEnemyController
         _meleeEnemyWeaponController.OnWeaponTriggerStay = OnWeaponTriggerStay;
         _animationEvents.OnStartHit = OnStartHit;
         _animationEvents.OnEndtHit = OnEndHit;
+        _type = Type.MELEE;
     }
 
     protected override void Update()
@@ -88,7 +95,7 @@ public class MeleeEnemyController : BaseEnemyController
         if (damage != null && damage != (IDamage) this)
         {
             _canHit = false;
-            damage.TakeDamage();
+            damage.TakeDamage(3);
         }
     }
 }

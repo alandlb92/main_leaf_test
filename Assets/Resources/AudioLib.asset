@@ -20,11 +20,17 @@ MonoBehaviour:
   _meleeHurt:
   - {fileID: 8300000, guid: c5f102c304cc37f4d96581bb90adcb28, type: 3}
   - {fileID: 8300000, guid: 409720d2f0866db49a8a0ab57d8776ba, type: 3}
+  _meleeSpawn:
+  - {fileID: 8300000, guid: 929de478da7473d4eb5b927912dc3de6, type: 3}
   _archerDie:
   - {fileID: 8300000, guid: 7f9f896a0df99ca408a10dde1b260ab2, type: 3}
+  _archerSpawn:
+  - {fileID: 8300000, guid: 8d61bd05843ff894cb121a885f07e2a7, type: 3}
   _meleeDie:
   - {fileID: 8300000, guid: 804feb25695c04c479bef9029b9b7484, type: 3}
   _bowRelease:
+  - {fileID: 8300000, guid: 2d2c722c90c6dd24699166d963c6efc8, type: 3}
+  _bowReleaseEmpty:
   - {fileID: 8300000, guid: 238d5b582ebe06e4589d4d3b2dabd696, type: 3}
   _bowPrepare:
   - {fileID: 8300000, guid: 3016db0afdbb4cf4dbb714e04497e8e2, type: 3}
@@ -42,3 +48,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c2dc4c22f5eebd14dae9aed6e31077b6, type: 3}
   - {fileID: 8300000, guid: 927acc2ee66dac34d9d3466b92f05ce6, type: 3}
   - {fileID: 8300000, guid: 296133742a9b53d4e82f418a7b4d6f31, type: 3}
+  _arrowShot:
+  - {fileID: 8300000, guid: 41e3eecad2f56ec46ab85a092a3596e1, type: 3}
+  _arrowInpact:
+  - {fileID: 8300000, guid: f33631c1dd3326048aed6482da5eda70, type: 3}
+  _playerDie:
+  - {fileID: 8300000, guid: 1a1e1a0fa06c59d4195ae09c9198c855, type: 3}

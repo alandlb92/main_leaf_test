@@ -6,6 +6,12 @@ using UnityEngine;
 using UnityEngine.AI;
 public class BaseEnemyController : MonoBehaviour, IDamage
 {
+    public enum Type
+    {
+        ARCHER,
+        MELEE
+    }
+
     public bool IsDead => !_animator.enabled;
 
     [SerializeField] private int _startLife = 1;
@@ -22,24 +28,36 @@ public class BaseEnemyController : MonoBehaviour, IDamage
     protected BaseAudioController _audioController;
     protected bool _attackMode;
     protected bool _waitDistanceToApproachTheEnemy = false;
+    protected Type _type;
 
-    private Action OnDie;
+    private Action<BaseEnemyController.Type> OnDie;
 
-    public virtual void Initialize(Action OnDie, int count)
+    public virtual void HideBody()
     {
+        transform.GetChild(0).gameObject.SetActive(false);
+        _navMeshAgent.avoidancePriority = 0;
+        _animator.enabled = false;
+        _navMeshAgent.isStopped = true;
+        EnableRagDoll(true);
+    }
+
+    public virtual void Initialize(System.Action<BaseEnemyController.Type> OnDie, int count)
+    {
+        transform.GetChild(0).gameObject.SetActive(true);
         this.OnDie = OnDie;
+        _navMeshAgent.isStopped = false;
         _animator.enabled = true;
         _currentLife = _startLife;
         _navMeshAgent.avoidancePriority = _priority + count;
         Awake();
     }
 
-    public virtual void TakeDamage()
+    public virtual void TakeDamage(int howMuch)
     {
         if (IsDead)
             return;
 
-        _currentLife--;
+        _currentLife -= howMuch;
         if (_currentLife <= 0)
             Die();
     }
@@ -64,19 +82,28 @@ public class BaseEnemyController : MonoBehaviour, IDamage
         if (IsDead)
             return;
 
-        _animator.SetFloat("Velocity", _navMeshAgent.velocity.magnitude / _navMeshAgent.speed);
-        _navMeshAgent.SetDestination(_playerController.transform.position);
-
-        if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance || _waitDistanceToApproachTheEnemy)
+        if (_playerController.IsDead)
         {
+            _attackMode = false;
             _navMeshAgent.isStopped = true;
-            _attackMode = true;
-            _waitDistanceToApproachTheEnemy = _navMeshAgent.remainingDistance <= _distanceToApproachTheEnemy;
+            _animator.SetFloat("Velocity", _navMeshAgent.velocity.magnitude / _navMeshAgent.speed);
         }
         else
         {
-            _navMeshAgent.isStopped = false;
-            _attackMode = false;
+            _animator.SetFloat("Velocity", _navMeshAgent.velocity.magnitude / _navMeshAgent.speed);
+            _navMeshAgent.SetDestination(_playerController.transform.position);
+
+            if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance || _waitDistanceToApproachTheEnemy)
+            {
+                _navMeshAgent.isStopped = true;
+                _attackMode = true;
+                _waitDistanceToApproachTheEnemy = _navMeshAgent.remainingDistance <= _distanceToApproachTheEnemy;
+            }
+            else
+            {
+                _navMeshAgent.isStopped = false;
+                _attackMode = false;
+            }
         }
     }
 
@@ -97,8 +124,9 @@ public class BaseEnemyController : MonoBehaviour, IDamage
     {
         _navMeshAgent.avoidancePriority = 0;
         _animator.enabled = false;
+        _navMeshAgent.isStopped = true;
         EnableRagDoll(true);
-        OnDie?.Invoke();
+        OnDie?.Invoke(_type == Type.ARCHER ? BaseEnemyController.Type.ARCHER : BaseEnemyController.Type.MELEE);
     }
 
     private void OnFootL()

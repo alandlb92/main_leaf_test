@@ -7,11 +7,17 @@ public class BaseAudioController : MonoBehaviour
     protected AudioSource _audioSource;
     protected static AudioLib _audioLib;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
         if (_audioLib == null)
             _audioLib = Resources.Load<AudioLib>("AudioLib");
+    }
+
+    protected void VerifyAudioSource()
+    {
+        if (_audioSource == null)
+            _audioSource = GetComponent<AudioSource>();
     }
 
     public void BowRelease()
@@ -20,6 +26,14 @@ public class BaseAudioController : MonoBehaviour
             return;
 
         _audioSource.PlayOneShot(_audioLib.BowRelease[Random.Range(0, _audioLib.BowRelease.Length)]);
+    }
+
+    public void BowReleaseEmpty()
+    {
+        if (_audioLib.BowReleaseEmpty == null || _audioLib.BowReleaseEmpty.Length == 0)
+            return;
+
+        _audioSource.PlayOneShot(_audioLib.BowReleaseEmpty[Random.Range(0, _audioLib.BowReleaseEmpty.Length)]);
     }
 
     public void BowPrepare()

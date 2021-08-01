@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class BowController : BaseWeaponController
     [SerializeField] private Transform _arrowOrigin;
     [SerializeField] private GameObject _arrowMesh;
     [SerializeField] private ArrowController _arrowInstanceReference;
+    [SerializeField] private int _startArrowsCount = 45;
+    private int _currentArrows;
 
     private List<ArrowController> _arrows = new List<ArrowController>();
     private bool _atackLayer;
@@ -18,23 +21,52 @@ public class BowController : BaseWeaponController
     private int _currentArrowIndex = 0;
     private const int MAX_ARROW_INSTANCES = 10;
     private const float MIN_ARROW_FORCE = 0.2f;
+
+    public void ResetBow()
+    {
+        _arrows.ForEach(a =>
+        {
+            a.transform.parent = null;
+            a.transform.position = Vector3.zero;
+        });
+    }
+    public void RecoverArrows()
+    {
+        if (_currentArrows <= 0)
+        {
+            _reloaded = false;
+            _animator.SetTrigger("Reload");
+        }
+        _currentArrows = _startArrowsCount;
+        _playerController.HudUI.SetArrows(_currentArrows);
+    }
+
     protected override void Awake()
     {
         base.Awake();
     }
+
     protected override void Start()
     {
         base.Start();
+        _currentArrows = _startArrowsCount;
+        _playerController.HudUI.SetArrows(_currentArrows);
     }
 
     protected override void Update()
     {
         base.Update();
-        if (_reloaded)
+        if (!_playerController.PlayerInputController.enabled)
         {
-            if(Input.GetMouseButtonUp(0))
+            _animator.SetBool("Mouse0", false);
+            return;
+        }
+
+        if (_reloaded || _currentArrows <= 0)
+        {
+            if (Input.GetMouseButtonUp(0))
             {
-                    _arrowForce = 0;
+                _arrowForce = 0;
 
                 float clipTime = Mathf.Clamp(_animator.GetCurrentAnimatorStateInfo(1).normalizedTime,
                     0, _animator.GetCurrentAnimatorClipInfo(1)[0].clip.length);
@@ -49,6 +81,7 @@ public class BowController : BaseWeaponController
             }
 
             _animator.SetBool("Mouse0", _playerController.PlayerInputController.Mouse0Clicked);
+
             if (_playerController.PlayerInputController.Mouse0Clicked && !_atackLayer)
             {
                 StartBlend(false);
@@ -62,9 +95,21 @@ public class BowController : BaseWeaponController
         }
     }
 
+
     private void Shot()
     {
+        if (_currentArrows <= 0)
+        {
+            _playerController.PlayerAudioController.BowReleaseEmpty();
+            return;
+        }
+
+        _currentArrows--;
+        _playerController.HudUI.SetArrows(_currentArrows);
+
         _playerController.PlayerAudioController.BowRelease();
+
+
         _arrowMesh.SetActive(false);
         StartBlend(true);
         _reloaded = false;
@@ -103,7 +148,8 @@ public class BowController : BaseWeaponController
                 yield return null;
             }
             _animator.SetLayerWeight(1, 0);
-            _animator.SetTrigger("Reload");
+            if (_currentArrows > 0)
+                _animator.SetTrigger("Reload");
         }
         else
         {

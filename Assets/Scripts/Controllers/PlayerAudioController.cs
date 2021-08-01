@@ -11,4 +11,12 @@ public class PlayerAudioController : BaseAudioController
 
         _audioSource.PlayOneShot(_audioLib.PlayerHurt[Random.Range(0, _audioLib.PlayerHurt.Length)]);
     }
+
+    public void Die()
+    {
+        if (_audioLib.PlayerDie == null || _audioLib.PlayerDie.Length == 0)
+            return;
+
+        _audioSource.PlayOneShot(_audioLib.PlayerDie[Random.Range(0, _audioLib.PlayerDie.Length)]);
+    }
 }
