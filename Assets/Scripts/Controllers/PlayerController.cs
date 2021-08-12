@@ -34,9 +34,24 @@ public class PlayerController : MonoBehaviour, IDamage
         _hudUI.SetHeart(_maxLife, _currentLife);
         _isDied = false;
     }
+
+    public void AddLife(int howMuch)
+    {
+        if (_currentLife < _maxLife)
+        {
+            _currentLife += howMuch;
+            _hudUI.SetHeart(_maxLife, _currentLife);
+        }
+    }
+
     public void RecoverArrows()
     {
         _weapon.RecoverArrows();
+    }
+
+    public void AddArrow(int howMuch)
+    {
+        _weapon.AddArrow(howMuch);
     }
 
     public void Enable(bool enable)
@@ -102,12 +117,11 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         if (_inGround && PlayerMovement.enabled)
         {
-            Debug.Log("Jump");
             _rigidbody.AddForce(Vector2.up * _jumpForce);
-            _inGround = true;
+            _inGround = false;
         }
     }
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag == "Terrain")
             _inGround = true;

@@ -22,6 +22,13 @@ public class BowController : BaseWeaponController
     private const int MAX_ARROW_INSTANCES = 10;
     private const float MIN_ARROW_FORCE = 0.2f;
 
+    public override void Initialize(PlayerController playerController)
+    {
+        base.Initialize(playerController);
+        _currentArrows = _startArrowsCount;
+        _playerController.HudUI.SetArrows(_currentArrows);
+    }
+
     public void ResetBow()
     {
         _arrows.ForEach(a =>
@@ -30,6 +37,7 @@ public class BowController : BaseWeaponController
             a.transform.position = Vector3.zero;
         });
     }
+
     public void RecoverArrows()
     {
         if (_currentArrows <= 0)
@@ -41,6 +49,12 @@ public class BowController : BaseWeaponController
         _playerController.HudUI.SetArrows(_currentArrows);
     }
 
+    public void AddArrow(int howMuch)
+    {
+        _currentArrows += howMuch;
+        _playerController.HudUI.SetArrows(_currentArrows);
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -49,8 +63,6 @@ public class BowController : BaseWeaponController
     protected override void Start()
     {
         base.Start();
-        _currentArrows = _startArrowsCount;
-        _playerController.HudUI.SetArrows(_currentArrows);
     }
 
     protected override void Update()
