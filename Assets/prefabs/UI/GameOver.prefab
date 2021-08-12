@@ -477,7 +477,7 @@ MonoBehaviour:
   _meleeCountText: {fileID: 3416381251248419001}
   _score: {fileID: 8321064719185947548}
   _playAgainButton: {fileID: 9185765227569789711}
-  _exitButton: {fileID: 566025213463864698}
+  _mainMenuButton: {fileID: 566025213463864698}
 --- !u!1 &3610119151337880626
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,7 +697,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7592836734792311065}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: options
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1243,11 +1243,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 218987760171578461, guid: 847cada4b966946458a3f59413dc1f08, type: 3}
       propertyPath: m_Name
-      value: ExitGame
+      value: MainMenu
       objectReference: {fileID: 0}
     - target: {fileID: 218987760171578462, guid: 847cada4b966946458a3f59413dc1f08, type: 3}
       propertyPath: m_text
-      value: Exit
+      value: Main Menu
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 847cada4b966946458a3f59413dc1f08, type: 3}

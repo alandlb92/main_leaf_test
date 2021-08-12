@@ -54,3 +54,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f33631c1dd3326048aed6482da5eda70, type: 3}
   _playerDie:
   - {fileID: 8300000, guid: 1a1e1a0fa06c59d4195ae09c9198c855, type: 3}
+  _popUp:
+  - {fileID: 8300000, guid: a9c8607deff156b41908ce756773aa7f, type: 3}
+  _pickUp:
+  - {fileID: 8300000, guid: 5e44a78fa638cf24cada9d4c2bf1f37d, type: 3}

@@ -131,6 +131,7 @@ MonoBehaviour:
   _startLife: 1
   _distanceToApproachTheEnemy: 20
   _priority: 50
+  _lootPositionAdjustments: {x: 0, y: 2, z: 0}
   _spine1: {fileID: 2690611821001129425}
   _rotationSpine1Offset: {x: 29.8, y: 70.1, z: -126.2}
   _timeToBlendLayers: 0.5

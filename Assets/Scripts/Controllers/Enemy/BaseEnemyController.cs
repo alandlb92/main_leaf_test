@@ -19,6 +19,7 @@ public class BaseEnemyController : MonoBehaviour, IDamage
 
     [SerializeField] protected float _distanceToApproachTheEnemy = 20;
     [SerializeField] private int _priority = 50;
+    [SerializeField] private Vector3 _lootPositionAdjustments = new Vector3(0, 1, 0);
     protected NavMeshAgent _navMeshAgent;
     protected Rigidbody[] _ragDollRigdybodys;
     protected Collider[] _ragDollColliders;
@@ -30,7 +31,9 @@ public class BaseEnemyController : MonoBehaviour, IDamage
     protected bool _waitDistanceToApproachTheEnemy = false;
     protected Type _type;
 
+    private LootController _lootController;
     private Action<BaseEnemyController.Type> OnDie;
+
 
     public virtual void HideBody()
     {
@@ -64,13 +67,14 @@ public class BaseEnemyController : MonoBehaviour, IDamage
 
     protected virtual void Awake()
     {
-        _navMeshAgent = GetComponent<NavMeshAgent>();
-        _animator = GetComponentInChildren<Animator>();
+        _lootController = FindObjectOfType<LootController>();
         _playerController = FindObjectOfType<PlayerController>();
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        _audioController = GetComponent<BaseAudioController>();
+        _animator = GetComponentInChildren<Animator>();
         _ragDollRigdybodys = GetComponentsInChildren<Rigidbody>();
         _ragDollColliders = GetComponentsInChildren<Collider>();
         _animationEvents = GetComponentInChildren<BaseEnemyAnimationEvents>();
-        _audioController = GetComponent<BaseAudioController>();
         _animationEvents.OnFootL = OnFootL;
         _animationEvents.OnFootR = OnFootR;
         _animationEvents.OnFire = OnFire;
@@ -122,6 +126,7 @@ public class BaseEnemyController : MonoBehaviour, IDamage
 
     protected virtual void Die()
     {
+        _lootController.NewRandomLoot(this.transform.position + _lootPositionAdjustments);
         _navMeshAgent.avoidancePriority = 0;
         _animator.enabled = false;
         _navMeshAgent.isStopped = true;

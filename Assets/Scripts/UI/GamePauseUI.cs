@@ -6,15 +6,17 @@ using UnityEngine.UI;
 public class GamePauseUI : BaseUI
 {
     [SerializeField] private Button _resumeGameButton;
-    [SerializeField] private Button _exitGameButton;
+    [SerializeField] private Button _mainMenuButton;
     private GameManager _gameManager;
+    private SceneLoader _sceneLoader;
 
     protected override void Awake()
     {
         base.Awake();
         _gameManager = FindObjectOfType<GameManager>();
         _resumeGameButton.onClick.AddListener(ResumeGame);
-        _exitGameButton.onClick.AddListener(ExitGame);
+        _mainMenuButton.onClick.AddListener(MainMenu);
+        _sceneLoader = transform.parent.GetComponentInChildren<SceneLoader>();
     }
 
     private void ResumeGame()
@@ -22,8 +24,11 @@ public class GamePauseUI : BaseUI
         _gameManager.PauseGame();
     }
 
-    private void ExitGame()
+    private void MainMenu()
     {
-        Application.Quit();
+        _gameManager.PauseGame();
+        Close();
+        _sceneLoader.LoadScene("StartScene");
     }
+
 }

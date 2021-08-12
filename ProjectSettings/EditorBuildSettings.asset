@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/StartScene.unity
+    guid: 8cc21991431ee5740ac2b97e8727db7a
+  - enabled: 1
+    path: Assets/Scenes/GamePlayScene.unity
+    guid: 6b014ed03d4850e4d8637a0e89969083
   m_configObjects: {}

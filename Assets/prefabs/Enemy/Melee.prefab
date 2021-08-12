@@ -3155,6 +3155,7 @@ MonoBehaviour:
   _startLife: 3
   _distanceToApproachTheEnemy: 5
   _priority: 50
+  _lootPositionAdjustments: {x: 0, y: 2, z: 0}
   _atackDesitionRangeTime: {x: 0.2, y: 1}
 --- !u!114 &8540116808802626187
 MonoBehaviour:

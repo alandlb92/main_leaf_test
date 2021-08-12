@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     [Range(1, 10)]
     [SerializeField] private int _nonRepetedSpawns = 5;
     [SerializeField] private float _gameTimeMinutes = 3;
-
+    [SerializeField] private bool _helpBetwenWaves;
     private AmbientAudioController _ambientAudioController;
     private PlayerController _playerController;
     private WavesScriptable _waveConfig;
@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     private GamePauseUI _gamePauseUI;
     private GameOverUI _gameOverUI;
     private LoadingUI _loadingUI;
+    private LootController _lootController;
 
     private Transform _playerStartPoint;
     private List<Transform> _spawnPoints = new List<Transform>();
@@ -58,6 +59,7 @@ public class GameManager : MonoBehaviour
         _archers.ForEach(a => a.HideBody());
         _melees.ForEach(m => m.HideBody());
         _playerController.Reset(_playerStartPoint);
+        _lootController.DisableAllLoots();
         CorotineUtils.WaiSecondsAndExecute(this, 2, () =>
         {
             _loadingUI.Close();
@@ -115,14 +117,12 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Confined;
-        _loadingUI = FindObjectOfType<LoadingUI>();
-        _loadingUI.Open();
         _spawnPoints = GameObject.FindGameObjectsWithTag("Respawn").Select(go => go.transform).ToList();
         _spawnPoints.ForEach(s => s.GetComponent<MeshRenderer>().enabled = false);
         _waveConfig = Resources.Load<WavesScriptable>("WavesConfig");
         _playerController = FindObjectOfType<PlayerController>();
         _hudUI = FindObjectOfType<HudUI>();
+        _loadingUI = _hudUI.transform.parent.GetComponentInChildren<LoadingUI>();
         _warningScreenUI = FindObjectOfType<WarningScreenUI>();
         _ambientAudioController = FindObjectOfType<AmbientAudioController>();
         _gamePauseUI = FindObjectOfType<GamePauseUI>();
@@ -130,12 +130,10 @@ public class GameManager : MonoBehaviour
         _startScreenUI = FindObjectOfType<StartScreenUI>();
         _playerStartPoint = GameObject.FindGameObjectWithTag("PlayerStart").transform;
         _playerStartPoint.GetComponent<MeshRenderer>().enabled = false;
+        _lootController = FindObjectOfType<LootController>();
+        Cursor.visible = false;
+        StartGame();
 
-        CorotineUtils.WaiSecondsAndExecute(this, 2, () =>
-        {
-            _loadingUI.Close();
-            _startScreenUI.Open();
-        });
     }
 
     private void Update()
@@ -188,7 +186,7 @@ public class GameManager : MonoBehaviour
                     _currentWave++;
                     if (_currentWave > _waveConfig.WaveConfigs.Length - 1)
                         _currentWave = _waveConfig.WaveConfigs.Length - 1;
-                }, OnChooseLifeOrArrows, _currentWave != 0);
+                }, OnChooseLifeOrArrows, (_currentWave != 0 && _helpBetwenWaves));
         });
     }
 

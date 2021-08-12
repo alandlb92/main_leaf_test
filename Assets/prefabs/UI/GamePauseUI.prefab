@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 3176858117865853917}
   - component: {fileID: 8290067801589385921}
   m_Layer: 5
-  m_Name: Options
+  m_Name: GamePauseUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -365,7 +365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _resumeGameButton: {fileID: 5789815326379392042}
-  _exitGameButton: {fileID: 7440717135595607421}
+  _mainMenuButton: {fileID: 7440717135595607421}
 --- !u!1001 &6004299306429565045
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -576,11 +576,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 218987760171578461, guid: 847cada4b966946458a3f59413dc1f08, type: 3}
       propertyPath: m_Name
-      value: ExitGame
+      value: MainMenu
       objectReference: {fileID: 0}
     - target: {fileID: 218987760171578462, guid: 847cada4b966946458a3f59413dc1f08, type: 3}
       propertyPath: m_text
-      value: Exit
+      value: Main Menu
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 847cada4b966946458a3f59413dc1f08, type: 3}

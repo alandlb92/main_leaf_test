@@ -23,6 +23,8 @@ public class AudioLib : ScriptableObject
     [SerializeField] private AudioClip[] _arrowShot;
     [SerializeField] private AudioClip[] _arrowInpact;
     [SerializeField] private AudioClip[] _playerDie;
+    [SerializeField] private AudioClip[] _popUp;
+    [SerializeField] private AudioClip[] _pickUp;
 
     public AudioClip[] PlayerHurt => _playerHurt;
     public AudioClip[] ArcherHurt => _archerHurt;
@@ -42,4 +44,6 @@ public class AudioLib : ScriptableObject
     public AudioClip[] ArrowShot => _arrowShot;
     public AudioClip[] ArrowInpact => _arrowInpact;
     public AudioClip[] PlayerDie => _playerDie;
+    public AudioClip[] PopUp => _popUp;
+    public AudioClip[] PickUp => _pickUp;
 }

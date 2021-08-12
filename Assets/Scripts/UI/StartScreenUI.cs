@@ -6,18 +6,34 @@ using UnityEngine.UI;
 public class StartScreenUI : BaseUI
 {
     [SerializeField] private Button _gameStartButton;
-    private GameManager _gameManager;
+    [SerializeField] private Button _configurationButton;
+    [SerializeField] private Button _exitButton;
+    private SceneLoader _sceneLoader;
 
     protected override void Awake()
     {
         base.Awake();
-        _gameManager = FindObjectOfType<GameManager>();
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
         _gameStartButton.onClick.AddListener(StartGame);
+        _configurationButton.onClick.AddListener(OpenConfigurationScreen);
+        _exitButton.onClick.AddListener(ExitGame);
+        _sceneLoader = transform.parent.GetComponentInChildren<SceneLoader>();
     }
 
     private void StartGame()
     {
-        _gameManager.StartGame();
         Close();
+        _sceneLoader.LoadScene("GamePlayScene");
+    }
+
+    private void OpenConfigurationScreen()
+    {
+        Close();
+    }
+
+    private void ExitGame()
+    {
+        Application.Quit();
     }
 }
