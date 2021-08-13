@@ -29,16 +29,16 @@ public class LootController : MonoBehaviour
     {
         int lootIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(LootType)).Length);
         LootType lootType = (LootType) lootIndex;
-        if(_loots.Count >= _maxLootSimultaneous)
-        {
-            _loots[_lootsNextIndex].Initialize(lootType, position);
-            _lootsNextIndex++;
-        }
-        else
+        if(_loots.Count < _maxLootSimultaneous)
         {
             LootInstanceController instance = Instantiate(_lootInstanceReference);
             instance.Initialize(lootType, position);
             _loots.Add(instance);
+        }
+        else
+        {
+            _loots[_lootsNextIndex].Initialize(lootType, position);
+            _lootsNextIndex++;
         }
     }
 }

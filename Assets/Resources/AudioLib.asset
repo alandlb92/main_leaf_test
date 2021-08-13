@@ -58,3 +58,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a9c8607deff156b41908ce756773aa7f, type: 3}
   _pickUp:
   - {fileID: 8300000, guid: 5e44a78fa638cf24cada9d4c2bf1f37d, type: 3}
+  _audioMixer: {fileID: 24100000, guid: 29ee351c34a9be449995ea6d1af150ef, type: 2}
