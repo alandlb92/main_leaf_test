@@ -9,6 +9,12 @@ public class AmbientAudioController : BaseAudioController
     {
         base.Awake();
         _audioSource = Camera.main.GetComponent<AudioSource>();
+        if (_audioSource != null)
+        {
+            if (_audioSource.outputAudioMixerGroup == null)
+                Debug.LogWarning("Audio source have no GROUP");
+        }
+
         _audioSource.clip = _audioLib.BgSound[0];
         _audioSource.loop = true;
         _audioSource.Play();

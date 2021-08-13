@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 [CreateAssetMenu(fileName = "AudioLib", menuName = "ScriptableObjects/AudioLib", order = 1)]
 public class AudioLib : ScriptableObject
@@ -26,6 +27,7 @@ public class AudioLib : ScriptableObject
     [SerializeField] private AudioClip[] _popUp;
     [SerializeField] private AudioClip[] _pickUp;
 
+    [SerializeField] private AudioMixer _audioMixer;
     public AudioClip[] PlayerHurt => _playerHurt;
     public AudioClip[] ArcherHurt => _archerHurt;
     public AudioClip[] MeleeHurt => _meleeHurt;
@@ -46,4 +48,6 @@ public class AudioLib : ScriptableObject
     public AudioClip[] PlayerDie => _playerDie;
     public AudioClip[] PopUp => _popUp;
     public AudioClip[] PickUp => _pickUp;
+
+    public AudioMixer AudioMixer => _audioMixer;
 }
