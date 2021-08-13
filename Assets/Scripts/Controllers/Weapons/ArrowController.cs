@@ -63,7 +63,9 @@ public class ArrowController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (_hitSomething || collision.GetComponent<ArrowController>() != null || collision.GetComponent<MeleeEnemyWeaponController>() != null)
+        if (_hitSomething || collision.GetComponent<ArrowController>() != null 
+            || collision.GetComponent<MeleeEnemyWeaponController>() != null 
+            || collision.gameObject.CompareTag("Loot"))
             return;
 
         IDamage damage = collision.gameObject.GetComponentInParent<IDamage>();

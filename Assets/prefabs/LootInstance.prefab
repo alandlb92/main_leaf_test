@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 8507837492284685414}
   m_Layer: 0
   m_Name: LootInstance
-  m_TagString: Untagged
+  m_TagString: Loot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -19,8 +19,10 @@ public class BaseAudioController : MonoBehaviour
         if (_audioLib == null)
         {
             _audioLib = Resources.Load<AudioLib>("AudioLib");
-            _audioLib.AudioMixer.SetFloat("AmbienceVolume", Mathf.Log(Settings.GameSettings.AmbienceAudio) * 20);
-            _audioLib.AudioMixer.SetFloat("VFXVolume", Mathf.Log(Settings.GameSettings.VfxAudio) * 20);
+            CorotineUtils.WaitEndOfFrameAndExecute(this, () => {
+                _audioLib.AudioMixer.SetFloat("AmbienceVolume", Mathf.Log(Settings.GameSettings.AmbienceAudio) * 20);
+                _audioLib.AudioMixer.SetFloat("VFXVolume", Mathf.Log(Settings.GameSettings.VfxAudio) * 20);
+            });
         }
     }
 

@@ -20,7 +20,7 @@ public class BowController : BaseWeaponController
 
     private int _currentArrowIndex = 0;
     private const int MAX_ARROW_INSTANCES = 10;
-    private const float MIN_ARROW_FORCE = 0.2f;
+    private const float MIN_ARROW_FORCE = 0.4f;
 
     public override void Initialize(PlayerController playerController)
     {

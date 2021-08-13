@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayerStart
   - Terrain
+  - Loot
   layers:
   - Default
   - TransparentFX

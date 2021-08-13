@@ -118,7 +118,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -478,34 +478,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4131243219766754}
     m_Modifications:
-    - target: {fileID: 2384806606975150067, guid: e6396cd022a9a4147bc838c16f469d61, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0.0000015474649
-      objectReference: {fileID: 0}
-    - target: {fileID: 2384806606975150067, guid: e6396cd022a9a4147bc838c16f469d61, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -0.000000800413
-      objectReference: {fileID: 0}
-    - target: {fileID: 2384806606975150067, guid: e6396cd022a9a4147bc838c16f469d61, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -0.0000031216102
-      objectReference: {fileID: 0}
-    - target: {fileID: 5521952595020853995, guid: e6396cd022a9a4147bc838c16f469d61, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0.0000084815965
-      objectReference: {fileID: 0}
-    - target: {fileID: 5521952595020853995, guid: e6396cd022a9a4147bc838c16f469d61, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -1.309879e-13
-      objectReference: {fileID: 0}
-    - target: {fileID: 5521952595020853995, guid: e6396cd022a9a4147bc838c16f469d61, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 1.8920476e-13
-      objectReference: {fileID: 0}
-    - target: {fileID: 5790734576800269845, guid: e6396cd022a9a4147bc838c16f469d61, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -5.550555
-      objectReference: {fileID: 0}
     - target: {fileID: 8413081535208165744, guid: e6396cd022a9a4147bc838c16f469d61, type: 3}
       propertyPath: m_Name
       value: Bow
