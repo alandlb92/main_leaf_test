@@ -6,9 +6,10 @@ using UnityEngine.UI;
 public class StartScreenUI : BaseUI
 {
     [SerializeField] private Button _gameStartButton;
-    [SerializeField] private Button _configurationButton;
+    [SerializeField] private Button _settingsButton;
     [SerializeField] private Button _exitButton;
     private SceneLoader _sceneLoader;
+    private SettingsUI _settignsUI;
 
     protected override void Awake()
     {
@@ -16,9 +17,10 @@ public class StartScreenUI : BaseUI
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
         _gameStartButton.onClick.AddListener(StartGame);
-        _configurationButton.onClick.AddListener(OpenConfigurationScreen);
+        _settingsButton.onClick.AddListener(OpenSettingsScreen);
         _exitButton.onClick.AddListener(ExitGame);
         _sceneLoader = transform.parent.GetComponentInChildren<SceneLoader>();
+        _settignsUI = transform.parent.GetComponentInChildren<SettingsUI>();
     }
 
     private void StartGame()
@@ -27,9 +29,10 @@ public class StartScreenUI : BaseUI
         _sceneLoader.LoadScene("GamePlayScene");
     }
 
-    private void OpenConfigurationScreen()
+    private void OpenSettingsScreen()
     {
         Close();
+        _settignsUI.Open();
     }
 
     private void ExitGame()

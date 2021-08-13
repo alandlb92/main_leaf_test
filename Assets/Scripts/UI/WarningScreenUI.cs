@@ -20,7 +20,6 @@ public class WarningScreenUI : BaseUI
     [SerializeField] private GameObject _lifeOrArrows;
     [SerializeField] private TMP_Text _tittleText;
     [SerializeField] private TMP_Text _countDownText;
-    [SerializeField] private int _countDow = 3;
 
     private AmbientAudioController _ambientAudioController;
     private bool _waiForChoose = false;
@@ -127,7 +126,7 @@ public class WarningScreenUI : BaseUI
 
     private IEnumerator CountDown()
     {
-        for (int i = _countDow; i > 0; i--)
+        for (int i = Settings.GameSettings.CountDownSeconds; i > 0; i--)
         {
             _countDownText.text = i.ToString();
             _ambientAudioController.CountDown();

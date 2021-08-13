@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _maxArcherInstaces = 10;
     [Range(1, 10)]
     [SerializeField] private int _nonRepetedSpawns = 5;
-    [SerializeField] private float _gameTimeMinutes = 3;
     [SerializeField] private bool _helpBetwenWaves;
     private AmbientAudioController _ambientAudioController;
     private PlayerController _playerController;
@@ -70,7 +69,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        _time = (_gameTimeMinutes * 60);
+        _time = (Settings.GameSettings.GameTimeMinutes * 60);
         _countTime = true;
         _hudUI.SetTime(_time);
         _gameplayStarted = true;

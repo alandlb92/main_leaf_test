@@ -11,7 +11,7 @@ public class BaseUI : MonoBehaviour
         _root = GetComponent<Canvas>();
     }
 
-    public void Open()
+    public virtual void Open()
     {
         _root.enabled = true;
     }
